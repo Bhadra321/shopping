@@ -1,0 +1,51 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block metadescription %}
+
+        {{ products.description|truncatewords:155 }}
+   
+            
+ 
+{% endblock %}
+{% block title %}
+    {% if category %}
+         {{ products.name }}-vesititi store
+              
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+<div  class="row my_prod_row_class">
+    <div class="my_auto">
+        <p><a href="{% url 'shop:allprodcat' %}">Home</a> | <a href="{{products.category.get_url}}">{{ products.category }} </a> |{{products.name}} </p>
+    </div>
+</div>
+<div class="container ">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6  text-center ">
+        <div style="min-width: 18erm;">
+            <img src="{{products.image.url}}" alt="{{products.name}}">
+
+        </div>
+    </div>
+    <div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div>
+            <h1 class="my_prod_title">{{products.name}}</h1>
+             <p>{{products.price}}</p>
+             <p class="my_title">Product Description</p>
+             <p class="text-justify my_prod_text" >{{products.description}}</p>
+             {% if product.stock <= 0 %}
+             <P class="text-justify  my_prod_text"><b>Out of Stock!</b></P>
+             {% else %}
+             <a  class="btn btn-secondary "  href="{% url 'shop:add_cart' products.id %}">Add to Cart</a>
+             {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}

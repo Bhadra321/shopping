@@ -1,0 +1,97 @@
+{% extends 'base1.html' %}
+{% load static%}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155 }}
+    {% else %}
+         welcom to Fashion is a term used interchangeably to describe the creation of clothing, footwear, accessories, cosmetics, and jewellery of different cultural aesthetics and their mix and match into outfits that depict distinctive ways of dressing (styles and trends) as signifiers of social status, self-expression, and group  
+    
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+         {{ category.name }}-vesititi store
+    {% else %}
+          Vesititi Store - All Products           
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if category %}
+       <div>
+        <div class="row my_row_class">
+            <div class="mx-auto ">
+            <p><a href="{% url 'shop:allprodcat' %}">Our Product collection</a></p>
+        </div>
+        </div>
+       </div>
+       {% endif %}
+    <div class="mx-auto">
+        {% if category %}
+        <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+    </div>   
+      <br>
+    <div>
+        <h1 class="text-center my_title ">{{category.name}}</h1>
+        <p class="text-justify">{{category.description}}</p>
+    </div>  
+    {% else %}
+    <div>
+        <img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" alt="Our products" width="300px" height="100px">
+    </div>
+    <br>
+    <div>
+        <h1 class="text-center my_title">Our Products collection</h1>
+        <p class="text-justify">It's a one-piece garment that usually covers the body from the shoulders to somewhere between the knee and ankle. Dresses come in all shapes and styles, from casual sundresses to fancy evening gowns. They can be flowy and comfortable or tailored and chic, depending on the occasion and personal style.
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Numquam, accusamus voluptatibus dolores, consectetur non molestiae enim tenetur id repudiandae eum, vel ea porro blanditiis quisquam suscipit. Ullam, aliquid delectus laborum, a commodi, blanditiis maxime corporis doloremque facilis tenetur aliquam obcaecati ipsa soluta. Saepe velit repellendus vel aspernatur harum aperiam enim doloribus amet in earum? Repellat vero voluptate consectetur ad perspiciatis libero unde ratione odio odit accusamus, cumque corrupti eius recusandae, possimus voluptatem? Vitae culpa molestias eaque dignissimos facere doloremque officiis impedit esse earum illum voluptas consequatur voluptatum modi aliquam natus eum, autem eveniet ad quasi ab rem? Qui necessitatibus, aliquid facere quae aspernatur dolore consequatur laudantium pariatur perspiciatis velit esse quidem vitae aut quis itaque eius quasi debitis. Maxime, alias! Harum sint magnam magni consequuntur. Hic neque at nulla repellendus suscipit molestiae, modi velit soluta animi tenetur illum laboriosam ea explicabo minima ducimus blanditiis sunt alias est, repudiandae magni nisi.   
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="row max_auto">
+            {% for products in products.object_list %}
+                <div class="card my_bottom_margin col-9 col-sm-12  col-md-4  col-lg-4 " >
+                    <div class="text-center" style="min-width: 18rem;">
+                        <a href="{{products.get_url}}">
+                            <img class="card-img-top " src="{{products.image.url}}" alt="{{products.name}}" height="200px" width="100px">
+                        </a>
+                    </div>
+                    <h4 class="text-center fw-bold  ">{{products.name}}</h4>
+                    <p class="text-center ">{{products.price}}</p>
+                </div>
+            {% endfor %}    
+        </div>
+        <!-- <div class="mx-auto ">
+            {% if products.paginnator.num_pages > 1 %}
+
+
+            <hr>
+            <div class="text-center ">
+                {% for pg in products.paginator.page_range %}
+                <a href="?page={{pg}}" class="btn btn-light btn-sm " color="red" {% if product.number == pg %} active {% endif %}>{{pg}}</a>
+                {% endfor %}
+
+            </div>
+            {% endif %}
+        </div> -->
+        <!-- Pagination -->
+<div class="pagination">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ products.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">Next</a>
+            <a href="?page={{ products.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+        <br>
+    </div>
+{% endblock %}
